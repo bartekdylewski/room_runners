@@ -6,8 +6,8 @@ import hashlib
 # Constants
 PRINT_ALL = False # print all additional info
 INPUT_NAME = "generated.txt" # input file name
-DURATION_FOR_SAVE_TAK = 2 # in ms
-DURATION_FOR_SAVE_NIE = 100 # in ms
+DURATION_FOR_SAVE_TAK = 9 # in ms
+DURATION_FOR_SAVE_NIE = 1000 # in ms
 
 ORDER_TO_ID = {
     'A': 0,

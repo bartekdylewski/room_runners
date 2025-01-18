@@ -10,6 +10,6 @@ mkdir -p "$input_dir" "$inputlong_dir" "$inputend_dir"
 # generate and test
 # off to see the wizard
 while true; do
-  python "./generator.py"
-  python "./rooms.py"
+  python3 generator.py
+  python3 rooms.py
 done
