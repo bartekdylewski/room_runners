@@ -4,7 +4,11 @@ import shutil
 import hashlib
 
 # Constants
-INPUT_NAME = "generated.txt"
+PRINT_ALL = False # print all additional info
+INPUT_NAME = "generated.txt" # input file name
+DURATION_FOR_SAVE_TAK = 2 # in ms
+DURATION_FOR_SAVE_NIE = 100 # in ms
+
 ORDER_TO_ID = {
     'A': 0,
     'B': 1,
@@ -58,13 +62,12 @@ def move_kids(actual_positions, rooms_doors, order, order_now, end_rooms_set):
     return actual_positions, game_end
 
 def save_input_file(result, duration):
-    duration_for_save_tak = 0.5
-    duration_for_save_nie = 100
+
     current_dir = os.path.dirname(os.path.abspath(__file__))
     input_dir = os.path.join(current_dir, "input")
-    if result == "TAK" and duration > duration_for_save_tak:
+    if result == "TAK" and duration > DURATION_FOR_SAVE_TAK:
         target_dir = os.path.join(current_dir, "inputend")
-    elif result == "NIE" and duration > duration_for_save_nie:
+    elif result == "NIE" and duration > DURATION_FOR_SAVE_NIE:
         target_dir = os.path.join(current_dir, "inputlong")
     else:
         return
@@ -73,8 +76,11 @@ def save_input_file(result, duration):
     hash = hashlib.sha256(hash.encode()).hexdigest()[:8]
     hash_name = f"{result}_{duration:.0f}ms_{hash}"
     shutil.copy(os.path.join(input_dir, INPUT_NAME), os.path.join(target_dir, f"{hash_name}.txt"))
+    skk = f"File saved as {hash_name}.txt"
+    print("\x1b[37m{}\x1b[0m" .format(skk))
 
-def main():
+
+def main(printAll):
     input_raw = open_input(INPUT_NAME)
     rooms_total, kids_total, start_positions, end_rooms_set, order, rooms_doors = process_input(input_raw)
     actual_positions = start_positions.copy()
@@ -89,25 +95,36 @@ def main():
         actual_positions, game_end = move_kids(actual_positions, rooms_doors, order, order_now, end_rooms_set)
 
         if(game_end):
-            print(f"Last positions: {str(positions_tuple)}")
-            print(f"Game ends at iteration {i}")
-            print("TAK")
+
+            if(printAll):
+                print(f"Last positions: {str(positions_tuple)}")
+                print(f"Game ends at iteration {i}")
+
+            delta_time = (time.time() - time1) * 1000
+            skk = f"TAK, Time of execution in ms: {delta_time:.2f}ms"
+            print("\x1b[42m{}\x1b[0m" .format(skk))
             save_input_file("TAK", duration=(time.time() - time1) * 1000)
             break
         
         positions_tuple = tuple(actual_positions)
         if positions_tuple in seen_positions:
             if last_repeated:
-                # print(f"Position at {i} is same as {seen_positions[positions_tuple]}")
-                # print(f"Positions at iteration {i:10d}: {str(positions_tuple)[:50]}...")
-                # print(f"Positions at iteration {seen_positions[positions_tuple]:10d}: {str(positions_tuple)[:50]}...")
-                print("Game will not end.")
-                print("NIE")
+
+                if(printAll):
+                    print(f"Position at {i} is same as {seen_positions[positions_tuple]}")
+                    print(f"Positions at iteration {i:10d}: {str(positions_tuple)[:50]}...")
+                    print(f"Positions at iteration {seen_positions[positions_tuple]:10d}: {str(positions_tuple)[:50]}...")
+                    print("Game will not end.")
+
+                delta_time = (time.time() - time1) * 1000
+                skk = f"NIE, Time of execution in ms: {delta_time:.2f}ms"
+                print("\x1b[32m{}\x1b[0m" .format(skk))
+                save_input_file("NIE", duration=delta_time)
                 break
             last_repeated = True
-            print(f"Position at {i} is same as {seen_positions[positions_tuple]}")
-            print(f"Positions at iteration {i:10d}: {str(positions_tuple)[:50]}...")
-            print(f"Positions at iteration {seen_positions[positions_tuple]:10d}: {str(positions_tuple)[:50]}...")
+            # print(f"Position at {i} is same as {seen_positions[positions_tuple]}")
+            # print(f"Positions at iteration {i:10d}: {str(positions_tuple)[:50]}...")
+            # print(f"Positions at iteration {seen_positions[positions_tuple]:10d}: {str(positions_tuple)[:50]}...")
         else:
             last_repeated = False
         seen_positions[positions_tuple] = i
@@ -120,8 +137,4 @@ def main():
         order_now += 1
         i += 1
     
-    delta_time = (time.time() - time1) * 1000
-    print(f"Time of execution in ms: {delta_time:.2f}ms")
-    save_input_file("NIE", duration=delta_time)
-    
-main()
+main(PRINT_ALL)

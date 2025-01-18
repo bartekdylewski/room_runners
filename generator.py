@@ -7,10 +7,16 @@ import os
 # schemat portali/drzwi ABCD (Y razy)
 # n wierszy z schematem portali ABCD
 
-n = 1000
+n = 500
 k = 100
 X = 20
-Y = 10
+Y = 20
+
+rooms_count = random.randint(1,n)
+kids = random.randint(1,k)
+start_positions = [random.randint(1, n) for _ in range(k)]
+end_positions = sorted(random.sample(range(1, n + 1), X))
+
 
 def list_to_proper_string(list:list):
     string = str(list)[1:-1]
@@ -19,16 +25,9 @@ def list_to_proper_string(list:list):
             string = string.replace(char, "")
     return string
 
-rooms_count = random.randint(100,n)
-kids = random.randint(50,k)
 
-# Generowanie pozycji startowych dzieci
-start_positions = [random.randint(1, n // 2) for _ in range(k)]
+# Stringify
 start_positions_str = list_to_proper_string(start_positions)
-
-
-# Generowanie pokojów końcowych (rozmieszczonych równomiernie)
-end_positions = sorted(random.sample(range(n // 2, n + 1), X))
 end_positions_str = list_to_proper_string(end_positions)
 
 # Generowanie schematu portali
@@ -40,7 +39,7 @@ for i in range(1, n + 1):
     room = []
     for _ in range(4):
         # Drzwi prowadzą do pokojów w promieniu +/- 10 od bieżącego pokoju
-        door_to = (i + random.randint(-100, 100)) % n + 1
+        door_to = (i + random.randint(1,n)) % n + 1
         room.append(door_to)
     rooms.append(list_to_proper_string(room))
 
@@ -66,4 +65,4 @@ file_path = os.path.join(input_dir, "generated.txt")
 with open(file_path, "w") as file:
     file.writelines(lines)
 
-print(f"Generated file successfully at {file_path}.")
+# print(f"Generated file successfully at {file_path}.")

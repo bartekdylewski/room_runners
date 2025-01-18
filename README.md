@@ -20,19 +20,33 @@ bash auto_single.sh
 ```
 ^ for single test
 \
-You can edit the constatnts of **deciding if a file is important** or not in:
+\
+You can edit the constatnts of **deciding if a file is important** or not in rooms.py
 ```py
-def save_input_file(result, duration):
-    duration_for_save_tak = 0.5 # duration [in ms] over which we will save the file if the game does end
-    duration_for_save_nie = 100 # duration [in ms] over which we will save the file if the game loops around
+# Constants
+PRINT_ALL = False # print all additional info
+INPUT_NAME = "generated.txt" # input file name
+DURATION_FOR_SAVE_TAK = 2 # in ms
+DURATION_FOR_SAVE_NIE = 100 # in ms
 ```
 
+^ you can also turn on additional prints to see what is happening under the hood
+\
+\
+You can change generation settings in generator.py file
 ```py
 # you can change the max values of theese constants in generator.py
-n = 1000
+n = 500
 k = 100
 X = 20
 Y = 10
 ```
-
+\
 More documentation, and features coming soon.....
+- [X] Make code faster
+- [X] Clean up prints
+- [ ] Update comments
+- [ ] Simplify code
+- [ ] Add cli flags to python script
+- [ ] Try and launch both files in main.py
+- [ ] Test saving history in ordered tuples
