@@ -2,7 +2,8 @@
 A script created for my discrete maths project.
 I added my own **generator of inputs** to test and optimize my code.
 The problem is described in Polish in the* **.pdf**
-More documentation will be available *soon*.
+
+A more sophisticated method is to use number theory to find something like congruences of the kids, and then solve the Chineese Reminder Theorem to find the iteration in which the kids are in specified rooms.
 
 To run the automatic script, make sure you installed git.
 ```sh
@@ -42,7 +43,7 @@ X = 20
 Y = 10
 ```
 \
-More documentation, and features coming soon.....
+Other things to improve it .....
 - [X] Make code faster
 - [X] Clean up prints
 - [ ] Update comments
