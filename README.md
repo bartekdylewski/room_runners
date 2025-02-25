@@ -51,3 +51,4 @@ Other things to improve it .....
 - [ ] Add cli flags to python script
 - [ ] Try and launch both files in main.py
 - [ ] Test saving history in ordered tuples
+- [ ] **Change approach to number theory way of solving**
